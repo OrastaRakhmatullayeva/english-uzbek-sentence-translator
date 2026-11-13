@@ -11,9 +11,15 @@ en_stoi = {token: i for i, token in enumerate(en_vocab)}
 uz_stoi = {token: i for i, token in enumerate(uz_vocab)}
 uz_itos = dict(enumerate(uz_vocab))
 model = TransformerNMT(len(en_vocab), len(uz_vocab))
-model.load_state_dict(torch.load(ROOT / 'checkpoints' / 'english_uzbek_transformer_100.pth', map_location='cpu', weights_only=True))
-model.eval()
 
+model.load_state_dict(
+    torch.load(
+        ROOT / "checkpoints" / "english_uzbek_transformer_sentences.pth",
+        map_location="cpu",
+        weights_only=True
+    )
+)
+model.eval()
 def translate(word, max_len=25):
     word = word.strip().lower()
     if not word:

@@ -3,7 +3,7 @@ import torch
 from torch import nn
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, max_len=100):
+    def __init__(self, d_model, max_len=512):
         super().__init__()
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(max_len, dtype=torch.float).unsqueeze(1)
@@ -61,7 +61,7 @@ class TransformerNMT(nn.Module):
         super().__init__()
         self.src_embedding = nn.Embedding(src_vocab_size, d_model)
         self.tgt_embedding = nn.Embedding(tgt_vocab_size, d_model)
-        self.pos_encoding = PositionalEncoding(d_model)
+        self.pos_encoding = PositionalEncoding(d_model, max_len=512)
         self.encoder_layers = nn.ModuleList([EncoderLayer(d_model, num_heads, d_ff, dropout) for _ in range(num_layers)])
         self.decoder_layers = nn.ModuleList([DecoderLayer(d_model, num_heads, d_ff, dropout) for _ in range(num_layers)])
         self.output_layer = nn.Linear(d_model, tgt_vocab_size)
